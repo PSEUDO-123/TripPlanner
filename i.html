@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Destination Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #results {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Indian Destination Explorer</h1>
+  <label for="destination">Enter an Indian destination:</label>
+  <input type="text" id="destination" placeholder="e.g., Jaipur">
+  <button onclick="searchDestination()">Explore</button>
+
+  <script>
+    function searchDestination() {
+      const destination = document.getElementById('destination').value;
+
+      // Fetch data from OpenCage Geocoding API
+      fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(destination)}&key=YOUR_API_KEY`)
+        .then(response => response.json())
+        .then(data => {
+          const resultsContainer = document.getElementById('results');
+          resultsContainer.innerHTML = '';
+
+          if (data.results && data.results.length > 0) {
+            const location = data.results[0];
+            const { formatted, geometry } = location;
+            const { lat, lng } = geometry;
+
+            resultsContainer.innerHTML += `<h2>Results for ${formatted}:</h2>`;
+            resultsContainer.innerHTML += `<p>Best places to visit: Lorem ipsum dolor sit amet.</p>`;
+            resultsContainer.innerHTML += `<p>Notable events: Nullam in felis id orci porttitor facilisis.</p>`;
+            resultsContainer.innerHTML += `<p>Suggested hotels: Fusce venenatis augue vitae ligula accumsan.</p>`;
+            resultsContainer.innerHTML += `<p>Nearby hospitals: Curabitur efficitur arcu eget nisl gravida.</p>`;
+            resultsContainer.innerHTML += `<p>Estimated budget: $1000 - $1500</p>`;
+
+            // Additional logic can be added here to display a map or fetch more details.
+          } else {
+            resultsContainer.innerHTML = '<p>No results found for the entered destination.</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          const resultsContainer = document.getElementById('results');
+          resultsContainer.innerHTML = '<p>Error fetching data. Please try again.</p>';
+        });
+    }
+  </script>
+</body>
+</html>

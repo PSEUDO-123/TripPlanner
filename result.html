@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results - Indian Destination Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #results {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      text-align: left;
+    }
+
+    #touristSpots, #nearbyPlaces, #budgetInfo {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Results - Indian Destination Explorer</h1>
+  <div id="results">
+    <h2 id="destinationTitle"></h2>
+    <p id="touristSpots"></p>
+    <p id="nearbyPlaces"></p>
+    <p id="budgetInfo"></p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Set the destination as "Jaipur" for this example
+      const destination = "Jaipur";
+      document.getElementById('destinationTitle').innerText = `Tourist Information for ${destination}`;
+
+      // Use OpenCage Geocoding API to get geolocation information for Jaipur
+      fetch(`https://api.opencagedata.com/geocode/v1/json?q=${destination}&key=YOUR_OPENCAGE_API_KEY`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.results && data.results.length > 0) {
+            const location = data.results[0];
+            const { formatted, geometry } = location;
+            const { lat, lng } = geometry;
+
+            // Fetch detailed information about tourist spots from Wikipedia API
+            fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&titles=${destination}&origin=*`)
+              .then(response => response.json())
+              .then(wikiData => {
+                const pageId = Object.keys(wikiData.query.pages)[0];
+                const page = wikiData.query.pages[pageId];
+                const touristSpots = page.extract || 'Tourist spots information not available.';
+                document.getElementById('touristSpots').innerText = `Tourist Spots: ${touristSpots}`;
+              })
+              .catch(error => {
+                console.error('Error fetching Wikipedia data:', error);
+              });
+
+            // Fetch information about nearby places from OpenCage Geocoding API
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=YOUR_OPENCAGE_API_KEY`)
+              .then(response => response.json())
+              .then(nearbyData => {
+                if (nearbyData.results && nearbyData.results.length > 0) {
+                  const nearbyPlaces = nearbyData.results.map(result => result.formatted).join(', ');
+                  document.getElementById('nearbyPlaces').innerText = `Nearby Places: ${nearbyPlaces}`;
+                } else {
+                  document.getElementById('nearbyPlaces').innerText = 'No nearby places found.';
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching nearby places data:', error);
+              });
+          } else {
+            console.error('Geolocation data not found.');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching geolocation data:', error);
+        });
+
+      // Prompt user for budget and display on the page
+      const budget = prompt('Enter your budget for the trip:');
+      document.getElementById('budgetInfo').innerText = `Your Budget: ${budget || 'Not specified'}`;
+    });
+  </script>
+</body>
+</html>

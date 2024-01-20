@@ -1,0 +1,77 @@
+body{
+    /*background-image: linear-gradient(to right, blue , pink);*/
+    background-image: url("tourist.jpg");
+  }
+
+  .box{
+    background-color: rgb(250, 249, 246);
+    height: 500px auto;
+    min-width: 900px auto;
+    margin: 60px;
+    margin-top: 300px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    }
+    .login{
+      height: 150px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      font-family: "Times New Roman", Times, serif;
+      
+    }
+    .use{
+      height: 55px;
+      margin-left: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+    
+    .pas{
+      height: 55px;
+      margin-left: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .but{
+      background-image: linear-gradient(to right, blue , pink);
+      height: 30px;
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 120%;
+    }
+    .butt{
+      display: flex;
+      align-items: center;
+      justify-content: center;  
+      height: 50px;
+    
+    }
+    .icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;  
+       height: 80px;
+    
+    }
+    .forgot{
+      margin-left: 500px;
+    }
+    p{ 
+      display: flex;
+      align-items: center;
+      justify-content: center;  
+      
+    }
+    
+  

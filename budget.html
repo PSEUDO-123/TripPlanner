@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choices - Indian Destination Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #choices {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      text-align: left;
+    }
+
+    #choicesList {
+      margin-top: 10px;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #choicesList li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    #checkboxes {
+      margin-right: 10px;
+    }
+
+    #submitBtn {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choices - Indian Destination Explorer</h1>
+  <div id="choices">
+    <h2>Explore Popular Attractions in Jaipur</h2>
+    <ul id="choicesList">
+      <li>
+        <input type="checkbox" id="jalMahal" class="checkbox">
+        <label for="jalMahal">Visit the iconic Jal Mahal and enjoy its serene surroundings.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="hawaMahal" class="checkbox">
+        <label for="hawaMahal">Explore the architectural marvel of Hawa Mahal and its intricate latticework.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="gaitoreKiChhatriya" class="checkbox">
+        <label for="gaitoreKiChhatriya">Discover the royal cenotaphs at Gaitore Ki Chhatriya.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="albertHall" class="checkbox">
+        <label for="albertHall">Immerse yourself in art and history at the Albert Hall Museum.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="cityPalace" class="checkbox">
+        <label for="cityPalace">Experience the grandeur of the City Palace, a symbol of Jaipur's royal heritage.</label>
+      </li>
+      <!-- Add more options as needed -->
+    </ul>
+
+    <button id="submitBtn" onclick="submitChoices()">Submit Choices</button>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    function submitChoices() {
+      const checkboxes = document.querySelectorAll('.checkbox');
+      const selectedChoices = [];
+
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedChoices.push(checkbox.id);
+        }
+      });
+
+      if (selectedChoices.length > 0) {
+        const budget = calculateBudget(selectedChoices.length);
+        const resultDiv = document.getElementById('result');
+        const budgetInRupees = convertToRupees(budget);
+
+        resultDiv.innerHTML = `<p>Your estimated budget: ₹${budgetInRupees}</p><p>Follow the directions to proceed...</p>`;
+        resultDiv.style.backgroundColor = '#e6f7ff'; // Light blue background for result
+
+        // Additional logic or directions can be added here based on the calculated budget
+      } else {
+        alert('Please select at least one option before submitting.');
+      }
+    }
+
+    function calculateBudget(choicesCount) {
+      // Simulate a basic budget calculation based on the number of selected choices
+      const baseBudget = 100; // Base budget amount
+      const additionalBudgetPerChoice = 50; // Additional budget per selected choice
+      return baseBudget + (additionalBudgetPerChoice * choicesCount);
+    }
+
+    function convertToRupees(amount) {
+      // Simulate a basic conversion rate (1 USD to 75 INR)
+      const exchangeRate = 75;
+      return amount * exchangeRate;
+    }
+  </script>
+</body>
+</html>
